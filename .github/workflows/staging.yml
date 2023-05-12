@@ -34,4 +34,4 @@ jobs:
         username: rolence@caratsbmg.com
         password: ${{ secrets.STAGING_FTP_PASSWORD }}
         port: 21
-        local-dir: /home/caraqupi/caratsbmg.com/rolence
+        local-dir: /home/caraqupi/caratsbmg.com/rolence/

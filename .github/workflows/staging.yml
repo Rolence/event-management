@@ -1,39 +1,36 @@
-name: PHP Composer
+name: Staging Deployment
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
-permissions:
-  contents: read
+    branches: [ master ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        shell: bash
+        working-directory: /home/
+    
     steps:
     - uses: actions/checkout@v3
-
-    - name: Validate composer.json and composer.lock
-      run: composer validate --strict
-
-    - name: Cache Composer packages
-      id: composer-cache
-      uses: actions/cache@v3
       with:
-        path: vendor
-        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-php-
-
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress
-
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
-
-    # - name: Run test suite
-    #   run: composer run-script test
+        fetch-dept: 2
+    
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extension: mbstring, intl
+        ini-values: post_max_size=256M, max_execution_time=180
+        coverage: xdebug
+        tools: php-cs-fixer, phpunit
+      # run: composer install --prefer-dist --no-progress --no-suggest
+    
+    - name: FTP Deploy to File Server
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      with:
+        ftp-server: sftp:ftp.samkirkland.com
+        ftp-username: staginguser-deploy
+        ftp-password: ${{ secrets.STAGING_FTP_PASSWORD }}
+        local-dir: ./home/docs

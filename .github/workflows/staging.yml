@@ -10,7 +10,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: /home/
+#        working-directory: /home/
     
     steps:
     - uses: actions/checkout@v3
@@ -30,7 +30,7 @@ jobs:
     - name: FTP Deploy to File Server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        ftp-server: sftp:ftp.samkirkland.com
-        ftp-username: staginguser-deploy
+        ftp-server: ftp.caratsbmg.com
+        ftp-username: rolence@caratsbmg.com
         ftp-password: ${{ secrets.STAGING_FTP_PASSWORD }}
-        local-dir: ./home/docs
+        local-dir: /home/caraqupi/caratsbmg.com/rolence

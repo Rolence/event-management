@@ -30,7 +30,8 @@ jobs:
     - name: FTP Deploy to File Server
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        ftp-server: ftp.caratsbmg.com
-        ftp-username: rolence@caratsbmg.com
-        ftp-password: ${{ secrets.STAGING_FTP_PASSWORD }}
+        server: ftp.caratsbmg.com
+        username: rolence@caratsbmg.com
+        password: ${{ secrets.STAGING_FTP_PASSWORD }}
+        port: 21
         local-dir: /home/caraqupi/caratsbmg.com/rolence
